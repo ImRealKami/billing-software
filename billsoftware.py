@@ -101,10 +101,9 @@ def save_bill():
     result = messagebox.askyesno('Yes or No', 'Do you want to save the bill?')
     file = Text(window, font=("arial", 15))
     if result>0:
-        file = open(f'bills/{billnumber}.txt', 'w')
-        file.delete(1.0, END)
-        file.write(textarea.get(1.0, END))
-        file.close()
+        f = open(f'bills/{billnumber}.txt', 'w', encoding='utf-8')
+        f.write(bill_data)
+        f.close()
         messagebox.showinfo('Saved', f'Bill {billnumber} been saved')
         billnumber = random.randint(1000, 10000)
     else:
