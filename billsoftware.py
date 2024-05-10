@@ -10,6 +10,8 @@ screen_width = 1920
 screen_height = 1080
 window.geometry(f"{screen_width}x{screen_height}")
 window.title("Billing")
+photo = PhotoImage(file = "billing.png")
+window.iconphoto(False, photo)
 window.update()
 
 def email():
