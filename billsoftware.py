@@ -9,27 +9,27 @@ window = Tk()
 screen_width = 1920
 screen_height = 1080
 window.geometry(f"{screen_width}x{screen_height}")
-window.title("Billing")
 photo = PhotoImage(file = "billing.png")
 window.iconphoto(False, photo)
+window.title("Billing")
 window.update()
 
 def email():
     def send_mail():
         try:
             connection = smtp.SMTP_SSL('smtp.gmail.com', 465)
-            email_addr = sender_entry.get()
-            email_passwd = password_entry.get()
+            email_addr = 'karthik.vadapalli20@gmail.com'
+            email_passwd = 'zrfc ltyc cffz fkxf'
             connection.login(email_addr, email_passwd)
-            message=email_textarea.get(1.0, END)
-            to_addrs=reciever_entry.get()
-            connection.sendmail(email_addr, to_addrs, message)
+            
+            message = email_textarea.get(1.0, END)
+            to_address = reciever_entry.get()
+
+            connection.sendmail(from_addr=email_addr, to_addrs=to_address, msg=message)
             connection.close()
             messagebox.showinfo('Success', 'Bill is successfully sent', parent=root)
         except:
             messagebox.showerror('Error', 'We think you did not enter an application passkey', parent=root)
-
-
 
     if textarea.get(1.0, END) == '\n':
         messagebox.showerror('Error', 'Bill is empty')
@@ -38,21 +38,6 @@ def email():
         root.title('Send Mail')
         root.config(bg='gray20')
         root.resizable(0, 0)
-
-        senderframe = LabelFrame(root, text='SENDER', font=('times new roman', 18, 'bold'), fg="white", bg="gray20", bd=5)
-        senderframe.grid(row=0, column=0)
-        
-        senderlabel = Label(senderframe, text="Sender's Email", font=("times new roman", 15))
-        senderlabel.grid(row=0, column=0)
-
-        sender_entry = Entry(senderframe, font=("arial", 14), bd=3, width=22, relief=GROOVE)
-        sender_entry.grid(row=0, column=1, padx=10, pady=10)
-        
-        password_label = Label(senderframe, text="Password", font=("times new roman", 15))
-        password_label.grid(row=1, column=0, padx=10, pady=8)
-
-        password_entry = Entry(senderframe, font=("arial", 14), bd=3, width=22, relief=GROOVE, show='*')
-        password_entry.grid(row=1, column=1, padx=10, pady=8)
 
         reciptent_frame = LabelFrame(root, text="RECIPTENT", font=("times new roman", 18, 'bold'), fg="white", bg="gray20", bd=5)
         reciptent_frame.grid(row=1, column=0, padx=40, pady=20)
@@ -66,7 +51,7 @@ def email():
         message_label = Label(reciptent_frame, text="Message", font=("times new roman", 18, 'bold'), fg="white", bg="gray20", bd=5)
         message_label.grid(row=1, column=0, padx=10, pady=8)
 
-        email_textarea = Text(reciptent_frame, font=("arial", 15), bd=3, relief=SUNKEN, width=40, height=11)
+        email_textarea = Text(reciptent_frame, font=("arial", 15), bd=3, relief=SUNKEN, width=45, height=11)
         email_textarea.grid(row=2, column=0, columnspan=2)
         email_textarea.delete(1.0, END)
         email_textarea.insert(END, textarea.get(1.0, END))
@@ -79,13 +64,13 @@ def print():
         messagebox.showerror('Error', 'Bill is empty')
     else:
         file = tempfile.mktemp('.txt')
-        open(file, 'w', encoding="utf-8").write(textarea.get(1.0, END))
+        open(file, 'w', encoding='utf-8').write(textarea.get(1.0, END))
         os.startfile(file, 'print')
 
 def search():
     for i in os.listdir('bills/'):
         if i.split('.')[0] == bill_entry.get():
-            f = open(f'bills/{i}', 'r')
+            f = open(f'bills/{i}', 'r', encoding='utf-8')
             textarea.delete(1.0, END)
             for data in f:
                 textarea.insert(END, data)  
@@ -102,6 +87,7 @@ def save_bill():
     global billnumber
     result = messagebox.askyesno('Yes or No', 'Do you want to save the bill?')
     file = Text(window, font=("arial", 15))
+    bill_data = textarea.get(1.0, END)
     if result>0:
         f = open(f'bills/{billnumber}.txt', 'w', encoding='utf-8')
         f.write(bill_data)
@@ -110,7 +96,6 @@ def save_bill():
         billnumber = random.randint(1000, 10000)
     else:
         return
-
 billnumber = random.randint(1000, 10000)
 
 def bill():
