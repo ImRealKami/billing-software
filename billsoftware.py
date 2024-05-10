@@ -79,7 +79,7 @@ def print():
         messagebox.showerror('Error', 'Bill is empty')
     else:
         file = tempfile.mktemp('.txt')
-        open(file, 'w').write(textarea.get(1.0, END))
+        open(file, 'w', encoding="utf-8").write(textarea.get(1.0, END))
         os.startfile(file, 'print')
 
 def search():
